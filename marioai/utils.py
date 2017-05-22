@@ -66,7 +66,7 @@ def extractObservation(data):
         timeLeft = int(data[3])
         marioMode = int(data[4])
         coins = int(data[5])
-        
+        #print status, distance, timeLeft, marioMode, coins
         return status, distance, timeLeft, marioMode, coins
 
     elif(data[0] == 'O'):
