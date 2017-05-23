@@ -1,5 +1,5 @@
-
 import marioai
+import random
 
 __all__ = ['NeatTask']
 
@@ -39,7 +39,7 @@ class NeatTask(object):
     def reset(self):
         '''Reinitialize the environment.'''
 
-        self.env.reset()
+        self.env.reset(random.randint(0,1000))
         self.cum_reward = 0
         self.samples = 0
         self.finished = False

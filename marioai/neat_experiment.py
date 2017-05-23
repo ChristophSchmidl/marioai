@@ -4,6 +4,9 @@ import neat
 
 __all__ = ['NeatExperiment']
 
+def mario_activation(z):
+    return max(0.0, min(1.0, z))
+
 class NeatExperiment(object):
     '''Episodic Experiment'''
     
@@ -16,7 +19,8 @@ class NeatExperiment(object):
         config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                             neat.DefaultSpeciesSet, neat.DefaultStagnation,
                             config_path)
-        
+        config.genome_config.add_activation('mario_activation', mario_activation)
+
         self.p = neat.Population(config)
         
         # Add a stdout reporter to show progress in the terminal.
@@ -43,6 +47,7 @@ class NeatExperiment(object):
             ff_neuralnet = neat.nn.FeedForwardNetwork.create(genome, config)
             self.agent.set_neuralnet(ff_neuralnet)
             self._episode()
-            reward = self.task.reward + self.task.coins
+            #reward = self.task.reward + self.task.coins
+            reward = self.task.reward
             print "Reward for episode ", genome_id, ": ", reward
             genome.fitness = reward

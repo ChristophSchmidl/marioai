@@ -4,18 +4,20 @@ import agents
 import neat
 import visualize
 
+
+
 def main():
     # setup our main classes
     agent = agents.NeatAgent()
-    task = marioai.NeatTask(name="NeatAgent")
+    task = marioai.NeatTask(name="NeatAgent", visualization=True)
     exp = marioai.NeatExperiment(task, agent)
-    
+
     # set some environment vars
     exp.max_fps = -1
     task.env.level_type = 0
 
     # load from checkpoint, uncomment if running from scratch
-    exp.p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
+    exp.p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-14')
 
     # get the statistics of NEAT during training
     stats = neat.StatisticsReporter()
