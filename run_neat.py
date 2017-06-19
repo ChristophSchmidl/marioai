@@ -13,7 +13,7 @@ def main():
     exp = marioai.NeatExperiment(task, agent)
 
     # set some environment vars
-    exp.max_fps = -1
+    exp.max_fps = 24
     task.env.level_type = 0
 
     # load from checkpoint, uncomment if running from scratch

@@ -36,5 +36,6 @@ class Experiment(object):
 
         for _ in xrange(n):
             rewards.append(self._episode())
+            print rewards
 
         return rewards

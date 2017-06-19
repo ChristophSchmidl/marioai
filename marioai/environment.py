@@ -31,7 +31,7 @@ class Environment(object):
         or not.
     '''
 
-    def __init__(self, name='Unnamed agent', host='localhost', port=4242, fast_tcp=False, visualization=True, level_seed=0):
+    def __init__(self, name='Unnamed agent', host='localhost', port=4242, fast_tcp=False, visualization=False, level_seed=0):
         '''Constructor.
 
         Args:
@@ -114,14 +114,14 @@ class Environment(object):
         self._tcpclient.sendData(actionStr)
     
 
-    def reset(self, level_seed):
+    def reset(self):
         '''Resets the simulator and configure it according to the variables set
         here.'''
 
         argstring = "-ld %d -lt %d -mm %d -ls %d -tl %d "%(self.level_difficulty,
                                                            self.level_type,
                                                            self.init_mario_mode,
-                                                           level_seed,
+                                                           self.level_seed,
                                                            self.time_limit)
         if self.creatures_enabled:
             argstring += "-pw off "
