@@ -33,27 +33,24 @@ class PSOExperiment(object):
 
         return rewards
 
-    def doEpisodes(self, n=1, m=20):
+    def doEpisodes(self, n=1, m=20, omega = 0.5, alpha_1 = 2, alpha_2 = 2):
         """
         
         :param n: number of iterations
         :param m: number of particles
+        :param omega, alpha_1, alpha_2: hyperparameters
         :return: 
         """
 
-        # Set a couple of constants
-        omega = 0.5
-        alpha_1 = 2
-        alpha_2 = 2
-
         # Initialize the variables
-        global_reward = [0]
+        global_reward = []
+        average_reward = []
         local_reward = np.zeros(shape=(m,))
         temp_reward = np.zeros(shape=(m,))
-        global_weight = np.zeros(shape=(30*3 + 3))
-        weights = np.random.uniform(low=-0.5, high=0.5, size=(m, 30*3 + 3))
+        global_weight = np.zeros(shape=(30*5 + 5))
+        weights = np.random.uniform(low=-0.5, high=0.5, size=(m, 30*5 + 5))
         local_weights = weights
-        velocity = np.zeros(shape=(m, 30*3 + 3))
+        velocity = np.zeros(shape=(m, 30*5 + 5))
 
         for run in xrange(n):
             # Disclaimer, the code is 'suboptimal' some of the for loops could
@@ -82,19 +79,22 @@ class PSOExperiment(object):
 
             # Get the best particle
             best_particle = np.argmin(temp_reward)
-            print best_particle, temp_reward[best_particle], '\n', temp_reward
-            if temp_reward[best_particle] < np.min(global_reward):
+            if run > 0:
+                if temp_reward[best_particle] < np.min(global_reward):
+                    print 'global best updated'
+                    global_weight = weights[best_particle, :]
+            else:
                 print 'global best updated'
                 global_weight = weights[best_particle, :]
             global_reward.append(temp_reward[best_particle])
+            average_reward.append(np.average(temp_reward))
 
             # Show the best particle of the run
-            self.task.env.visualization = True
-            self.agent.set_nn()
-            self.agent.nn.vec2nn(weights[best_particle, :])
-            self._episode()
-            print self.task.reward
-            self.task.env.visualization = False
+            # self.task.env.visualization = True
+            # self.agent.set_nn()
+            # self.agent.nn.vec2nn(weights[best_particle, :])
+            # self._episode()
+            # self.task.env.visualization = False
 
             # Update the velocities and the weights
             r_1 = np.random.uniform(low=0, high=1)
@@ -105,4 +105,4 @@ class PSOExperiment(object):
 
             print 'average: ', np.average(temp_reward), 'best: ', np.min(temp_reward), 'this run took', time.time() - t0, ' seconds \n'
 
-        return global_reward
+        return global_reward, average_reward

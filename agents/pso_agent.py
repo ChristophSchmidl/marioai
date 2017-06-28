@@ -76,7 +76,7 @@ class PSO_net():
 class PSO_agent(marioai.Agent):
 
     def set_nn(self):
-        self.nn = PSO_net([7*4 + 2, 3])
+        self.nn = PSO_net([7*4 + 2, 5])
         self.prev_input = None
         self.action = None
         x = self.nn.nn2vec()
@@ -105,4 +105,4 @@ class PSO_agent(marioai.Agent):
         self.prev_input = nn_input
         self.action = nn_output
 
-        return [0, nn_output[0], 0, nn_output[1], nn_output[2]]
+        return nn_output
